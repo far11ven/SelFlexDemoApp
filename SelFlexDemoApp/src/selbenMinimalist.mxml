@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:s="library://ns.adobe.com/flex/spark">
+		<fx:Script>
+		
+		
+		import sfapi.core.AppTreeParser;
+		
+		
+		import mx.controls.Alert;
+		import mx.collections.XMLListCollection;
+		
+		[Bindable]
+		private var searchResult:XMLList;
+		private var searchResultIndex:uint = 0;
+		
+		private function findByName():void
+		{
+			
+			
+			var mixml:XMLList = new XMLList(tree.dataProvider.source);
+			
+			
+			var searchStr:String = "Outbox";
+			//child.expandChildrenOf(myXML[0], false);
+			
+			
+			//mixml=data;
+			
+			searchResult= mixml.node.(@label==searchStr);
+			
+			
+			
+			var xn:XML = searchResult[searchResultIndex];
+			Alert.show("searchResult "+ xn);
+			
+			
+			searchResultIndex = 0;
+			if (searchResult[searchResultIndex] != undefined)
+				
+				
+				var xmlNode:XML = searchResult[searchResultIndex];
+			
+			while (xmlNode.parent() != null) {
+				
+				
+				Alert.show("xmlNodeBefore"+ xmlNode);
+				xmlNode = xmlNode.parent();
+				
+				Alert.show("xmlNodeAfter"+ xmlNode);
+				tree.expandItem(xmlNode, true, false);
+				tree.selectedItem = searchResult[searchResultIndex];
+				
+				Alert.show(" tree.selectedItem " + tree.selectedItem );
+			}
+		}
+		
+		
+	</fx:Script>
+	<fx:Declarations>
+		<fx:XMLList id="data">
+			<node>
+				<node label="Inbox">
+					<node label="Marketing"/>
+					<node label="Product Management"/>
+					<node label="Personal"/>
+				</node>
+				<node label="Outbox">
+					<node label="Professional"/>
+					<node label="Private"/>
+				</node>
+				<node label="Spam">
+					<node label="Kushal">
+						<node label="myFolder"/>
+				    </node>
+				</node>
+				<node label="Sent"/>
+			</node>
+		</fx:XMLList>
+	</fx:Declarations>
+	
+	<mx:VBox>
+		<mx:Button label="Search by name" click="findByName()" /> 
+		
+		<mx:Tree id="tree" width="500" height="500"
+				 showRoot="false" dataProvider="{data}"
+				 labelField="@label" />
+	</mx:VBox>
+	
+</s:Application>

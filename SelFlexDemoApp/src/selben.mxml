@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   creationComplete="initSelben(this)"
+			   >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.ItemClickEvent;
+			import mx.controls.Alert;
+			import com.flexspy.FlexSpy;
+			
+			import Fruit;
+			
+			private var numClicks:int = 0;
+			
+			private var textIDtab4:int = 0;
+			
+			private function initSelben(app:Object):void {
+				SeleniumFlexAPI.init(app);
+			}
+			
+			private function multiply():void {
+				var n:int = int(num.text);
+				var m:int = int(factor.text);
+				result.text = "The result is " + String(n * m);
+			}
+			
+			private function multiply1():void {
+				var n:int = int(num1.text);
+				var m:int = int(factorVal.text);
+				Total.text = "The result is " + String(n * m);
+			}
+			
+			private function buttonClick(): void {
+				buttonClicks.text = "Pushed " + ++numClicks + ((numClicks == 1) ? " time" : " times");
+			}
+			
+			private function comboChange(): void {
+				var fruit:Fruit = Fruit(combo.selectedItem);
+				comboQuote.text = fruit.name + "s are " + fruit.colour;
+			}
+			
+			private function checkBoxChange(): void {
+				checkBoxLabel.text = checkBox.selected ? "checked" : "not checked";
+			}
+			
+			private function dateChange(): void {
+				dateLabel.text = "You chose " + date.selectedDate.getDate() +
+					"/" + (date.selectedDate.getMonth() + 1) +      
+					"/" + date.selectedDate.getFullYear();
+			}
+			
+			private function gridClick(): void {
+				var fruit:Fruit = Fruit(dataGrid.selectedItem);
+				dataGridLabel.text = fruit.name + "s are " + fruit.colour;
+			}
+			
+			private function cheddarClick(): void {
+				cheeseTabText.text = "You chose Cheddar";
+			}
+			
+			private function brieClick(): void {
+				cheeseTabText.text = "You chose Brie";
+			}
+			
+			private function buttonBarlickHandler(evt:ItemClickEvent):void {
+				Alert.show("Selected button label: " + evt.label  +
+					"\n" + "Selected button index: " + String(evt.index));
+			}
+			
+			public function myButton_clickHandler(event:Event):void
+			{
+				//Alert.show("Button " + Button(event.currentTarget).id + " was clicked!");
+			}
+			
+			
+			private var apple:Fruit = new Fruit("apple", "green");
+			private var banana:Fruit = new Fruit("banana", "yellow");
+			private var grape:Fruit = new Fruit("grape", "purple");
+			[Bindable]
+			private var fruits:ArrayCollection = new ArrayCollection([apple, banana, grape]);
+			
+			
+			[Bindable]
+			
+			public var personCollection:ArrayCollection=new ArrayCollection([
+				{firstName:"Steve",lastName:"Smith",address:{city:"AB",state:"MD",zip:"87212"}},
+				{firstName:"Edward",lastName:"Leake",address:{city:"Chicago",state:"IL",zip:"41341"}},
+				{firstName:"Mike",lastName:"Robertson",address:{city:"Jersey City",state:"NJ",zip:"03212"}},
+				{firstName:"Jack",lastName:"Arminio",address:{city:"Atlanta",state:"GA",zip:"30339"}},
+				{firstName:"Eddie",lastName:"Sinisgali",address:{city:"Boston",state:"MA",zip:"29183"}}]);
+			
+			[Bindable]
+			public var selectedNode:XML;
+			
+			// Event handler for the Tree control change event.
+			public function treeChanged(event:Event):void {
+				selectedNode=Tree(event.target).selectedItem as XML;
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:XMLList id="treeDataXML">
+			<node label="Mail Box">
+				
+				<node label="Inbox">
+					<node label="Marketing"/>
+					<node label="Product Management"/>
+					<node label="Private"/>
+				</node>
+				<node label="Outbox">
+					<node label="Professional"/>
+					<node label="Personal">
+						<node label="Hidden"/>
+				    </node>
+				</node>
+				<node label="Spam">
+					<node label="Kushal"/>
+				</node>
+				<node label="Sent"/>
+				
+			</node>
+		</fx:XMLList>
+	</fx:Declarations>
+	
+		<fx:Style>
+		#title{
+			font-size: 12px;
+			font-weight: bold;
+		}
+	</fx:Style>
+	
+	<mx:Panel width="100%" height="100%" >
+		
+		
+		
+		<mx:Label id="title"  text="Flex Demo App ------"/>
+		
+		<mx:HBox>
+			<mx:Button id="btnFlexSpy" height ="21" width = "32" click="FlexSpy.show()" icon="@Embed('c:/eclipse/logo-spy.png')" />
+			
+			<mx:ButtonBar itemClick="buttonBarlickHandler(event);">
+				<mx:dataProvider>
+					<fx:Array>
+						<fx:String>Flex</fx:String>
+						<fx:String>Flash</fx:String>
+						<fx:String>ColdFusion</fx:String>
+						<fx:String>Dreamweaver</fx:String>
+						<fx:String>Director</fx:String>
+					</fx:Array>
+				</mx:dataProvider>
+			</mx:ButtonBar>
+			
+		</mx:HBox>
+		
+		<mx:VBox paddingLeft="30" paddingTop="10" paddingRight="30" paddingBottom="10" width="100%" height="100%">
+			
+			
+			
+			<mx:TabNavigator id="ALL_tabs" borderStyle="solid"  width="80%" height="80%">
+				
+				
+				
+				<mx:VBox  id="MyTab1" label="MyTab1" paddingLeft="30" paddingTop="10" paddingRight="30" paddingBottom="10" width="100%" height="100%">
+					
+					<mx:Form id="selbenForm">
+						
+						
+						
+						<mx:HBox>
+							<mx:FormItem label="Think of a number">
+								<mx:TextInput id="num" text="10" width="100" maxChars="10" change="multiply()"/>
+							</mx:FormItem>
+							
+							<mx:FormItem label="Multiply by">
+								<mx:TextInput id="factor" text="3" width="100" maxChars="10" change="multiply()"/>
+								
+								
+							</mx:FormItem>
+							
+							<mx:Label id="result" text="The result is 30"/>
+							
+							<mx:LinkButton label="LinkButton" color="#0000FF" fontWeight="bold"
+										   click="Alert.show('LinkButton selected!');"/>
+						</mx:HBox>
+						
+						<mx:HBox>
+							<mx:Button id="button" label="Push" click="buttonClick();"/>
+							<mx:Label id="buttonClicks" text=""/>
+						</mx:HBox>
+						
+						<mx:HBox>
+							<mx:Label id="comboQuote" text="Choose a fruit"/>
+							<mx:ComboBox id="combo" dataProvider="{fruits}" labelField="name" change="comboChange()"/>
+						</mx:HBox>
+						
+						<mx:HBox>
+							<mx:RadioButton id="radioButton1" groupName="1" />
+							<mx:RadioButton id="radioButton2" groupName="1" />
+							<mx:Label id="radioBoxLabel" text="Check me"/>
+						</mx:HBox>
+						
+						<mx:HBox>
+							<mx:CheckBox id="checkBox" change="checkBoxChange()"/>
+							<mx:Label id="checkBoxLabel" text="Check me"/>
+						</mx:HBox>
+						
+						<mx:HBox>
+							<mx:Label id="dateLabel" text="Pick a date"/>
+							<mx:DateField id="date" formatString="DD/MM/YYYY" editable="true" change="dateChange()"/>
+						</mx:HBox>
+						
+						<mx:HBox>
+							<mx:Label id="dataGridLabel" text="Choose more fruit"/>
+							<mx:DataGrid id="dataGrid" dataProvider="{fruits}" itemClick="gridClick()">
+								<mx:columns>
+									<mx:DataGridColumn dataField="name" headerText="Fruit"/>
+									<mx:DataGridColumn dataField="colour" headerText="Colour"/>
+								</mx:columns>
+							</mx:DataGrid>
+						</mx:HBox>
+						
+						
+					</mx:Form>
+					
+				</mx:VBox>
+				
+				<mx:VBox id="MyTab2" label="MyTab2" paddingLeft="30" paddingTop="10" paddingRight="30" paddingBottom="10" width="100%" height="100%">
+					
+					
+					<mx:Label id="label1" text="Tab2 data :"/>
+					
+					
+					<mx:Accordion id="acco" width="70%" height="70%" creationPolicy="auto">
+						
+						<mx:VBox id="pane1" label="Pane 1" height="50" width ="70%">
+							
+							<mx:HBox>
+								
+								<mx:FormItem label="Think of another number">
+									<mx:TextInput id="num1" text="10" width="100" maxChars="10" change="multiply()"/>
+								</mx:FormItem>
+								
+								<mx:FormItem label="Multiply by">
+									<mx:TextInput id="factorVal" text="3" width="100" maxChars="10" change="multiply1 ()"/>
+								</mx:FormItem>
+								
+								<mx:Label id="Total" text="The result is 30"/>
+							</mx:HBox>
+							
+						</mx:VBox>
+						
+						<mx:VBox id="pane2" label="Pane 2" width ="70%" >
+							
+							<mx:TabNavigator id="tabs" borderStyle="solid" >
+								<mx:VBox label="Fruit" >
+									<mx:Label id="fruitTabText" text="fruit"/>
+									<mx:RadioButton groupName="apples" id="Pink" label="Pink Lady" click="Alert.show('You chose Pink Lady','Message', Alert.OK | Alert.CANCEL)"/>
+									<mx:RadioButton groupName="apples" id="Cox" label="Cox's Orange Pippin" click="Alert.show('You chose Cox\'s Orange Pippin','Message')"/>
+								</mx:VBox>
+								
+								<mx:VBox label="Cheese" id="cheeseTab">
+									<mx:Label id="cheeseTabText" text="Choose cheese"/>
+									<mx:RadioButton groupName="cheeses" id="Cheddar" label="Cheddar" click="cheddarClick()"/>
+									<mx:RadioButton groupName="cheeses" id="Brie" label="Brie" click="brieClick()"/>
+								</mx:VBox>
+								
+								<mx:VBox id="Veg" label="Vegetables">
+									<mx:Label id="vegTabText" text="veg"/>
+								</mx:VBox>
+								
+								
+								
+							</mx:TabNavigator>
+						</mx:VBox>
+						
+						<mx:VBox id="pane3" label="Pane 3" height="50" width ="70%">
+							
+							<mx:HBox>
+								
+								
+								<mx:Label id="Total1" text="The result is 30"/>
+							</mx:HBox>
+							
+						</mx:VBox>
+						
+						
+					</mx:Accordion>
+					
+				</mx:VBox>
+				
+				<mx:VBox  id="MyTab3" label="MyTab3" paddingLeft="30" paddingTop="10" paddingRight="30" paddingBottom="10">
+					
+					<mx:Panel title="Tree Control"
+							  paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10"
+							  height="100%" width="100%">
+						
+						<mx:Label width="100%"
+								  text="Select a node in the Tree control."/>
+						
+						<mx:HDividedBox width="100%" height="100%">
+							<mx:Tree id="myTree" width="40%" height="100%" labelField="@label"
+									 showRoot="false" dataProvider="{treeDataXML}" change="treeChanged(event)"/>
+							
+							<mx:DataGrid id="treeDataGrid"  width="60%"  >
+								<mx:columns>          
+									
+									<mx:DataGridColumn dataField="CurrentNode" headerText="CurrentNode"/>
+									<mx:DataGridColumn dataField="ParentNode" headerText="ParentNode"/>
+									<mx:DataGridColumn dataField="SuperNode" headerText="SuperNode"/>
+									<mx:DataGridColumn dataField=""  itemRenderer="DataGridViewLinkButton"/>
+									<mx:DataGridColumn dataField=""  itemRenderer="DataGridEditLinkButton"/>
+									
+									
+								</mx:columns>
+								<s:ArrayCollection>
+									
+									<s:DataItem CurrentNode="{selectedNode.@label}" ParentNode="{selectedNode.parent().@label}" SuperNode="{selectedNode.parent().parent().@label}"/>         
+									<s:DataItem CurrentNode="{selectedNode.@label}" ParentNode="{selectedNode.parent().@label}" SuperNode="{selectedNode.parent().parent().@label}"/>         
+								</s:ArrayCollection>
+							</mx:DataGrid>
+						</mx:HDividedBox>
+						
+					</mx:Panel>    
+					
+					
+				</mx:VBox>
+				
+				<mx:VBox  id="MyTab4" label="MyTab4" paddingLeft="30" paddingTop="10" paddingRight="30" paddingBottom="10">
+					
+					
+					<mx:Label id="dataGridLabel1" text="My complex datagrid"/>
+					
+					<mx:DataGrid id="personDataGrid" dataProvider="{personCollection}" width="100%"  >
+						<mx:columns>          
+							
+							
+							<mx:DataGridColumn dataField="firstName" headerText="First Name" />
+							<mx:DataGridColumn dataField="lastName" headerText="Last Name"/>
+							<mx:DataGridColumn dataField="address.city" headerText="City"/>
+							<mx:DataGridColumn dataField="" headerText="State" itemRenderer="DataGridTextbox"/>
+							<mx:DataGridColumn dataField="" headerText="Zip" itemRenderer="DataGridButton"/>
+							
+						</mx:columns>
+					</mx:DataGrid>
+					
+					
+				</mx:VBox>
+				
+				
+			</mx:TabNavigator>
+			
+			
+			
+		</mx:VBox>
+		
+	</mx:Panel>
+</s:Application>

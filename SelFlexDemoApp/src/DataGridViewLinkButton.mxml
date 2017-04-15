@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009"
+						  xmlns:s="library://ns.adobe.com/flex/spark"
+						  xmlns:mx="library://ns.adobe.com/flex/mx"
+						  focusEnabled="true">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+		]]>
+	</fx:Script>
+	<mx:LinkButton  top="0" left="10" right="10" bottom="0" label="View" width="100%" click="Alert.show('You clicked VIEW button','Message', Alert.OK | Alert.CANCEL)"/>
+</mx:VBox>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009"
+						  xmlns:s="library://ns.adobe.com/flex/spark"
+						  xmlns:mx="library://ns.adobe.com/flex/mx"
+						  focusEnabled="true">
+	<mx:RadioButton  top="0" left="10" right="10" bottom="0" label="Click Here" width="100%" groupName="2"/>
+</mx:VBox>
